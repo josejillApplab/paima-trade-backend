@@ -51,6 +51,17 @@ app.get('/api/history/:symbol', async (req, res) => {
     }
 });
 
+// Phase 2 Routers
+import authRouter from './routes/auth';
+import portfolioRouter from './routes/portfolio';
+import tradeRouter from './routes/trade';
+import leaderboardRouter from './routes/leaderboard';
+
+app.use('/api/auth', authRouter);
+app.use('/api/portfolio', portfolioRouter);
+app.use('/api/trade', tradeRouter);
+app.use('/api/leaderboard', leaderboardRouter);
+
 // Socket.io Connection Handler
 io.on('connection', (socket) => {
     console.log(`[Socket] Client connected: ${socket.id}`);

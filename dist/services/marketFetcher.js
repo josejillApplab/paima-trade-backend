@@ -1,37 +1,26 @@
-import { NseIndia } from 'stock-nse-india';
-
-const nseIndia = new NseIndia();
-
-/**
- * Interface representing a fetched market price
- */
-export interface MarketData {
-    symbol: string;
-    price: number;
-    timestamp: Date;
-}
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.fetchIndianMarketPrices = exports.TRACKED_SYMBOLS = void 0;
+const stock_nse_india_1 = require("stock-nse-india");
+const nseIndia = new stock_nse_india_1.NseIndia();
 // Popular Indian Stocks to track
-export const TRACKED_SYMBOLS = [
+exports.TRACKED_SYMBOLS = [
     'RELIANCE',
     'TCS',
     'HDFCBANK',
     'INFY',
     'SBI'
 ];
-
 /**
  * Service to fetch real market prices using stock-nse-india.
  */
-export const fetchIndianMarketPrices = async (): Promise<MarketData[]> => {
+const fetchIndianMarketPrices = async () => {
     try {
-        const marketData: MarketData[] = [];
-
+        const marketData = [];
         // Fetch prices sequentially to avoid overwhelming the NSE endpoints
-        for (const symbol of TRACKED_SYMBOLS) {
+        for (const symbol of exports.TRACKED_SYMBOLS) {
             try {
                 const details = await nseIndia.getEquityDetails(symbol);
-
                 if (details && details.priceInfo && details.priceInfo.lastPrice) {
                     marketData.push({
                         symbol,
@@ -39,15 +28,17 @@ export const fetchIndianMarketPrices = async (): Promise<MarketData[]> => {
                         timestamp: new Date()
                     });
                 }
-            } catch (err) {
+            }
+            catch (err) {
                 console.error(`Failed to fetch live price for ${symbol}:`, err);
                 // Continue fetching other symbols even if one fails
             }
         }
-
         return marketData;
-    } catch (error) {
+    }
+    catch (error) {
         console.error(`Error in fetchIndianMarketPrices:`, error);
         throw error;
     }
 };
+exports.fetchIndianMarketPrices = fetchIndianMarketPrices;
