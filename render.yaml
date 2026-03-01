@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: paima-trade-backend
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: NODE_ENV
+        value: production
+      # REMINDER: Don't forget to add your NEON_DATABASE_URL and CORS_ORIGIN to the Render dashboard!
